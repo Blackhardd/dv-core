@@ -93,7 +93,8 @@ function dv_donation_apply(){
     $is_added_to_sheet = dv_add_user_data_to_sheet( dv_prepare_data_for_sheet( $data ), ( $data['donator'] == 'new' ) ? 0 : 1 );
 
     if( $is_admin_message_sent && $is_user_message_sent ){
-        wp_die( get_permalink( 1581 ) );
+        $typ_id = ( $data['donator'] == 'new' ) ? get_option( 'thank_you_page_new' ) : get_option( 'thank_you_page_existing' );
+        wp_die( get_permalink( $typ_id ) );
     }
 
     wp_die();

@@ -12,7 +12,13 @@ add_action( 'admin_menu', function(){
     );
 } );
 
-function dv_admin_page_settings(){ ?>
+function dv_admin_page_settings(){
+    $pages = get_pages( array(
+        'exclude' => get_option( 'page_on_front' )
+    ) );
+    
+    $new_donor_typ = get_option( 'thank_you_page_new' );
+    $existing_donor_typ = get_option( 'thank_you_page_existing' ); ?>
     <div class="dv-wrapper">
         <div class="dv-section">
             <header class="dv-section-header">
@@ -27,6 +33,26 @@ function dv_admin_page_settings(){ ?>
                     <div class="dv-field">
                         <label for="recipients"><?=__( 'Příjemci oznámení (oddělené čárkou)', 'dv' ); ?></label>
                         <input type="text" name="recipients" id="recipients" value="<?=get_option( 'recipients' ); ?>">
+                    </div>
+
+                    <div class="dv-field">
+                        <label for="redirect-for-new"><?=__( 'Stránka s poděkováním za nového dárce', 'dv' ); ?></label>
+                        <select name="thank_you_page_new" id="redirect-for-new">
+                            <option value="" <?=( !$new_donor_typ ) ? 'selected' : ''; ?>><?=__( 'Zakázat přesměrování', 'dv' ); ?></option>
+                            <?php foreach( $pages as $page ): ?>
+                                <option value="<?=$page->ID; ?>" <?=( $new_donor_typ == $page->ID ) ? 'selected' : ''; ?>><?=$page->post_title; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="dv-field">
+                        <label for="redirect-for-existing"><?=__( 'Stránka s poděkováním za stávajícího dárce', 'dv' ); ?></label>
+                        <select name="thank_you_page_existing" id="redirect-for-existing">
+                            <option value="" <?=( !$existing_donor_typ ) ? 'selected' : ''; ?>><?=__( 'Zakázat přesměrování', 'dv' ); ?></option>
+                            <?php foreach( $pages as $page ): ?>
+                                <option value="<?=$page->ID; ?>" <?=( $existing_donor_typ == $page->ID ) ? 'selected' : ''; ?>><?=$page->post_title; ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
 
                     <div class="dv-field">
@@ -150,18 +176,19 @@ function dv_admin_page_settings(){ ?>
     }
 
     .dv-field > input,
-    .dv-field > textarea {
+    .dv-field > textarea,
+    .dv-field > select {
         display: block;
         width: 100%;
         font-size: 1em;
         border-radius: 0;
         border-color: #c1c1c1;
-        resize: none;
         transition: border-color 300ms ease;
     }
 
     .dv-field > input:focus,
-    .dv-field > textarea:focus {
+    .dv-field > textarea:focus,
+    .dv-field > select:focus {
         border-color: #EF95AB;
         box-shadow: none;
         outline: none;
@@ -174,6 +201,13 @@ function dv_admin_page_settings(){ ?>
 
     .dv-field > textarea {
         padding: 1em;
+        resize: none;
+    }
+
+    .dv-field > select {
+        max-width: 100%;
+        padding: 0 1em;
+        line-height: 48px;
     }
 
 
