@@ -31,6 +31,16 @@ function dv_admin_page_settings(){
                 </div>
                 <form class="dv-form">
                     <div class="dv-field">
+                        <label for="instagram"><?=__( 'Odkaz na Instagram', 'dv' ); ?></label>
+                        <input type="text" name="instagram_link" id="instagram" value="<?=get_option( 'instagram_link' ); ?>">
+                    </div>
+
+                    <div class="dv-field">
+                        <label for="facebook"><?=__( 'Odkaz na Facebook', 'dv' ); ?></label>
+                        <input type="text" name="facebook_link" id="facebook" value="<?=get_option( 'facebook_link' ); ?>">
+                    </div>
+
+                    <div class="dv-field">
                         <label for="recipients"><?=__( 'Příjemci oznámení (oddělené čárkou)', 'dv' ); ?></label>
                         <input type="text" name="recipients" id="recipients" value="<?=get_option( 'recipients' ); ?>">
                     </div>
